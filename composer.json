@@ -1,0 +1,20 @@
+{
+    "name": "luanhimmlisch/lin",
+    "autoload": {
+        "psr-4": {
+            "LuanHimmlisch\\Lin\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Luan Himmlisch",
+            "email": "luan@himmlisch.com.mx"
+        }
+    ],
+    "require-dev": {
+        "symfony/var-dumper": "^6.1"
+    },
+    "require": {
+        "langleyfoxall/math_eval": "^2.0"
+    }
+}
