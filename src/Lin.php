@@ -16,9 +16,10 @@ class Lin
     protected float $b2;
     protected float $r;
     protected float $s;
-    protected float $p = 0;
-    protected float $q = 0;
+    protected float $p = 2;
+    protected float $q = 2;
     protected array $quotients = [];
+    protected int $index = 0;
 
     protected ?float $delta_p = null;
     protected ?float $delta_q = null;
@@ -65,11 +66,15 @@ class Lin
     public function execute()
     {
         if (!isset($this->a0)) {
-            $this->a0 = $this->quotients[0];
-            $this->a1 = $this->quotients[1];
-            $this->a2 = $this->quotients[2];
-            $this->a3 = $this->quotients[3];
-            $this->a4 = (int) $this->function[strlen($this->function) - 1];
+            $this->a0 = round($this->quotients[0], 4);
+            $this->a1 = round($this->quotients[1], 4);
+            $this->a2 = round($this->quotients[2], 4);
+            $this->a3 = round($this->quotients[3], 4);
+
+            $a4 = null;
+            preg_match("/(?:\+|-)\d+$/", $this->function, $a4);
+
+            $this->a4 = (float) $a4[0];
         }
 
         $this->b0 = $this->a0;
@@ -88,13 +93,23 @@ class Lin
         $this->q = $this->q + $this->delta_q;
 
         $this->error = sqrt(pow($this->r, 2) + pow($this->s, 2));
+        echo
+        "
+p: {$this->p}
+q: {$this->q}
+b0 {$this->b0}
+b1: {$this->b1}
+b2: {$this->b2}
+r: {$this->r}
+s: {$this->s}
+dp: {$this->delta_p}
+dq: {$this->delta_q}
+";
+
         if ($this->error > $this->tolerance) {
+            readline("\nPress enter for the next iteration\n");
+            $this->index++;
             return $this->execute();
         }
-        return dd($this);
-
-        // return math_eval('(x^2+p*x+q)(b_zero * x^2 + b_one * x + b_two)', [
-        //     'x' => 
-        // ]);
     }
 }
